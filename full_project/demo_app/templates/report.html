@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Attack Report — SecureShield</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      min-height: 100vh;
+    }
+    header {
+      background: #161b22;
+      border-bottom: 1px solid #21262d;
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header h1 { font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+    .btn {
+      padding: 8px 20px;
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      color: #e6edf3;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .container { max-width: 860px; margin: 40px auto; padding: 0 20px 60px; }
+    .card {
+      background: #161b22;
+      border: 1px solid #21262d;
+      border-radius: 16px;
+      padding: 30px;
+    }
+    .card h2 { font-size: 1.1rem; margin-bottom: 20px; color: #f0f6fc; }
+    pre {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 24px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      color: #56d364;
+      line-height: 1.7;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    .empty {
+      text-align: center;
+      padding: 50px;
+      color: #8b949e;
+    }
+    .empty .icon { font-size: 3rem; margin-bottom: 14px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>📊 SecureShield — Attack Report</h1>
+  <a href="/" class="btn">← Back to Home</a>
+</header>
+
+<div class="container">
+  <div class="card">
+    <h2>📋 Logged Attacks</h2>
+    {% if "No attacks" in report %}
+      <div class="empty">
+        <div class="icon">✅</div>
+        <p>No attacks have been logged yet.<br>Try testing some attack URLs on the home page!</p>
+      </div>
+    {% else %}
+      <pre>{{ report }}</pre>
+    {% endif %}
+  </div>
+</div>
+
+</body>
+</html>
